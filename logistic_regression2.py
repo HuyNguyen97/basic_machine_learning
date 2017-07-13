@@ -14,7 +14,7 @@ train_x = np.loadtxt('ex4x.txt')                                         # conve
 train_y = np.loadtxt('ex4y.txt')                                         # convert file(two column and 80 row) to array to train
 #print(train_y)  
                          
-train_x = np.concatenate((np.ones((1,80)),train_x.T), axis = 0)          #add one column value 1 to train_x( a trick for theta_0)
+train_x = np.concatenate((np.ones((1,40)),train_x.T), axis = 0)          #add one column value 1 to train_x( a trick for theta_0)
 train_x=train_x.T
 #print(train_x[2,1])
 def logistic_function(x):
@@ -51,17 +51,39 @@ def gradient(theta_init, X, Y, iteration, learning_rate ):
 theta_init = np.random.randn(1, 3)
 
 
-theta = gradient(theta_init, train_x, train_y,50000, 0.005)
+theta = gradient(theta_init, train_x, train_y,100000, 0.05)
 print(theta[-1])
 
-numtrain = range(0,80)
+
+
+
+
+
+#################################################### test #####################################################
+
+
+DATA_SET_PATH_x = "testx.txt"
+DATA_SET_PATH_y = "testy.txt"
+data = pd.read_csv(DATA_SET_PATH_x)            
+data = pd.read_csv(DATA_SET_PATH_y)    
+                           
+test_x = np.loadtxt('testx.txt')                                         
+
+test_y = np.loadtxt('testy.txt')                                         
+
+                         
+test_x = np.concatenate((np.ones((1,40)),test_x.T), axis = 0)         
+test_x=test_x.T
+
+
+numtrain = range(0,40)
 right=0   # test on train set
 wrong=0
 
 for i in numtrain:
-	xi = train_x[i,:].reshape(1,3)                                      
+	xi = test_x[i,:].reshape(1,3)                                      
 	xi=xi.T
-	yi=train_y[i]
+	yi=test_y[i]
 	h = logistic_function(np.dot(theta[-1],xi)) 
 	print(h)
 	if(h>=0.5 and yi==1) or (h<0.5 and yi==0):
@@ -71,5 +93,4 @@ for i in numtrain:
 
 print(right)
 print(wrong)
-
 
